@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feira das Profissões 2026 | Tecnologia, IA, Segurança e Soft Skills</title>
+  <meta name="description" content="Apresentação-web para alunos: carreira em tecnologia, IA, segurança da informação e soft skills em 2026." />
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg2: #0b1b31;
+      --panel: rgba(255,255,255,.08);
+      --panel2: rgba(255,255,255,.12);
+      --text: #f7fbff;
+      --muted: #b8c7d9;
+      --line: rgba(255,255,255,.16);
+      --accent: #6ee7ff;
+      --accent2: #a78bfa;
+      --good: #8df7c4;
+      --warn: #ffd166;
+      --danger: #ff8fa3;
+      --shadow: 0 22px 70px rgba(0,0,0,.35);
+      --radius: 28px;
+      --max: 1180px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Helvetica Neue", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 12%, rgba(110,231,255,.20), transparent 24rem),
+        radial-gradient(circle at 85% 5%, rgba(167,139,250,.24), transparent 28rem),
+        radial-gradient(circle at 75% 75%, rgba(141,247,196,.12), transparent 30rem),
+        linear-gradient(145deg, var(--bg), var(--bg2));
+      overflow-x: hidden;
+    }
+
+    body.light {
+      --bg: #eef6ff;
+      --bg2: #ffffff;
+      --panel: rgba(7,17,31,.06);
+      --panel2: rgba(7,17,31,.10);
+      --text: #091525;
+      --muted: #415168;
+      --line: rgba(7,17,31,.14);
+      --shadow: 0 22px 70px rgba(20,40,70,.12);
+      background:
+        radial-gradient(circle at 15% 12%, rgba(14,165,233,.16), transparent 24rem),
+        radial-gradient(circle at 85% 5%, rgba(124,58,237,.16), transparent 28rem),
+        radial-gradient(circle at 75% 75%, rgba(16,185,129,.10), transparent 30rem),
+        linear-gradient(145deg, var(--bg), var(--bg2));
+    }
+
+    a { color: inherit; text-decoration-color: rgba(110,231,255,.55); }
+    a:hover { text-decoration-color: currentColor; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      background: rgba(7,17,31,.68);
+    }
+
+    body.light .topbar { background: rgba(255,255,255,.70); }
+
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 12px 30px rgba(110,231,255,.22);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #07111f;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 14px;
+      letter-spacing: .02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); background: var(--panel2); border-color: rgba(110,231,255,.55); }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(110,231,255,.26), rgba(167,139,250,.24));
+      border-color: rgba(110,231,255,.38);
+    }
+
+    .progress-wrap {
+      height: 3px;
+      width: 100%;
+      background: rgba(255,255,255,.06);
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width .2s ease;
+    }
+
+    main { max-width: var(--max); margin: 0 auto; padding: 28px 22px 56px; }
+
+    .slide {
+      min-height: calc(100vh - 86px);
+      display: grid;
+      align-items: center;
+      padding: 46px 0;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+
+    .slide:last-of-type { border-bottom: none; }
+
+    .kicker {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: .02em;
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3 { margin: 0; letter-spacing: -.04em; line-height: .98; }
+    h1 {
+      font-size: clamp(48px, 8.2vw, 108px);
+      max-width: 980px;
+    }
+    h2 { font-size: clamp(36px, 5vw, 72px); max-width: 980px; }
+    h3 { font-size: clamp(23px, 2vw, 32px); line-height: 1.08; letter-spacing: -.03em; }
+
+    p {
+      color: var(--muted);
+      font-size: clamp(18px, 1.6vw, 23px);
+      line-height: 1.48;
+      max-width: 850px;
+    }
+
+    .lead { font-size: clamp(21px, 2vw, 30px); color: rgba(247,251,255,.88); }
+    body.light .lead { color: #1d2b3d; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 28px;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card { padding: 28px; align-self: stretch; }
+    .hero-card .label { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .14em; font-weight: 800; }
+    .hero-card .name { font-size: 30px; font-weight: 900; margin: 8px 0 16px; letter-spacing: -.03em; }
+    .role {
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
+      margin: 18px 0;
+      color: var(--text);
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+    .mini-list { display: grid; gap: 10px; margin: 18px 0 0; padding: 0; list-style: none; }
+    .mini-list li {
+      display: flex;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+    .mini-list li::before { content: "✦"; color: var(--accent); flex: 0 0 auto; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .chip {
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .grid { display: grid; gap: 18px; }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      padding: 22px;
+      border-radius: 24px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      min-height: 100%;
+    }
+    .card strong { color: var(--text); }
+    .card p { font-size: 16px; margin: 12px 0 0; }
+    .card .num {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(110,231,255,.22), rgba(167,139,250,.20));
+      border: 1px solid rgba(110,231,255,.28);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .quote {
+      margin-top: 28px;
+      padding: 26px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(110,231,255,.28);
+      background: linear-gradient(135deg, rgba(110,231,255,.14), rgba(167,139,250,.12));
+      max-width: 980px;
+      font-size: clamp(24px, 3vw, 42px);
+      line-height: 1.12;
+      letter-spacing: -.04em;
+      font-weight: 900;
+    }
+
+    .question-list { display: grid; gap: 12px; margin-top: 26px; max-width: 960px; }
+    .q {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+    .q span {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(110,231,255,.13);
+      color: var(--accent);
+      font-weight: 900;
+    }
+    .q strong { font-size: 18px; }
+    .q small { color: var(--muted); display: block; margin-top: 4px; line-height: 1.35; }
+
+    .pillars { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 28px; }
+    .pillar {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--panel);
+      min-height: 245px;
+    }
+    .pillar::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(110,231,255,.16), transparent 70%);
+      border-radius: 50%;
+    }
+    .pillar .icon { font-size: 36px; margin-bottom: 18px; }
+    .pillar h3 { margin-bottom: 12px; }
+    .pillar p { font-size: 16px; margin: 0; }
+
+    .pathway {
+      counter-reset: step;
+      display: grid;
+      gap: 14px;
+      margin-top: 26px;
+      max-width: 980px;
+    }
+    .step {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--panel);
+    }
+    .step::before {
+      content: counter(step);
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      color: #06101e;
+      background: linear-gradient(135deg, var(--accent), var(--good));
+      font-weight: 950;
+      font-size: 24px;
+    }
+    .step strong { display: block; font-size: 20px; }
+    .step span { color: var(--muted); display: block; margin-top: 4px; line-height: 1.35; }
+
+    details {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 20px;
+      padding: 0;
+      overflow: hidden;
+    }
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 18px 20px;
+      font-size: 18px;
+      font-weight: 850;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--accent); font-size: 24px; line-height: 1; }
+    details[open] summary::after { content: "–"; }
+    details p { margin: 0; padding: 0 20px 20px; font-size: 16px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(280px, 1.05fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .speaker-note {
+      margin-top: 22px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,.22);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      background: rgba(255,255,255,.04);
+    }
+    .speaker-note strong { color: var(--text); }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .source {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .source a { color: var(--text); font-weight: 850; }
+
+    .footer {
+      padding: 32px 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .floating {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: rgba(7,17,31,.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px;
+      box-shadow: var(--shadow);
+    }
+    body.light .floating { background: rgba(255,255,255,.78); }
+    .floating .counter { min-width: 72px; text-align: center; font-size: 13px; color: var(--muted); font-weight: 850; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(10px);
+    }
+    .modal.open { display: grid; }
+    .modal-panel {
+      max-width: 980px;
+      width: min(980px, 100%);
+      max-height: 86vh;
+      overflow: auto;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(110,231,255,.14), transparent 24rem),
+        linear-gradient(145deg, #0b1b31, #07111f);
+      box-shadow: var(--shadow);
+      padding: 26px;
+    }
+    body.light .modal-panel {
+      background:
+        radial-gradient(circle at 20% 0%, rgba(14,165,233,.13), transparent 24rem),
+        linear-gradient(145deg, #fff, #eef6ff);
+    }
+
+    .faq-grid { display: grid; gap: 12px; margin-top: 18px; }
+
+    @media (max-width: 920px) {
+      .hero-grid, .two-col, .grid.cols-2, .grid.cols-3, .grid.cols-4, .pillars, .source-grid {
+        grid-template-columns: 1fr;
+      }
+      .slide { min-height: auto; padding: 52px 0; }
+      .topbar-inner { align-items: flex-start; }
+      .brand span { display: none; }
+      .nav-actions .hide-sm { display: none; }
+      .floating { left: 50%; right: auto; transform: translateX(-50%); }
+      main { padding-bottom: 82px; }
+    }
+
+    @media print {
+      body {
+        background: white !important;
+        color: #111 !important;
+      }
+      .topbar, .floating, .modal { display: none !important; }
+      main { max-width: 100%; padding: 0; }
+      .slide {
+        min-height: auto;
+        page-break-after: always;
+        border-bottom: none;
+        padding: 30px 0;
+      }
+      .glass, .card, .pillar, .q, .step, details, .quote {
+        box-shadow: none !important;
+        background: white !important;
+        color: #111 !important;
+        border-color: #ccc !important;
+      }
+      p, .card p, .pillar p, .q small, .step span, .source, .footer { color: #333 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" aria-label="Identificação da apresentação">
+        <div class="logo">GB</div>
+        <div>
+          <strong>Feira das Profissões 2026</strong>
+          <span>Spoiler do futuro: tecnologia, IA, segurança e habilidades humanas</span>
+        </div>
+      </div>
+      <nav class="nav-actions" aria-label="Ações da apresentação">
+        <button class="btn hide-sm" onclick="openQuestions()">Perguntas dos alunos</button>
+        <button class="btn hide-sm" onclick="window.print()">Imprimir / PDF</button>
+        <button class="btn" onclick="toggleTheme()">Tema</button>
+        <button class="btn primary" onclick="goToSlide(current + 1)">Próximo</button>
+      </nav>
+    </div>
+    <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+  </header>
+
+  <main>
+    <section class="slide" id="inicio" data-title="Início">
+      <div class="hero-grid">
+        <div>
+          <div class="kicker">Atualizado para 2026 · versão web</div>
+          <h1>Spoiler do futuro: o que vem depois da escola?</h1>
+          <p class="lead">Uma conversa direta sobre carreira em tecnologia — sem hype, sem medo e com espaço para dúvidas reais.</p>
+          <div class="chips" aria-label="Temas principais">
+            <span class="chip">Inteligência Artificial</span>
+            <span class="chip">Segurança da Informação</span>
+            <span class="chip">Soft Skills</span>
+            <span class="chip">Produtos Digitais</span>
+            <span class="chip">Aprendizado contínuo</span>
+          </div>
+          <div class="quote">A tecnologia muda rápido. O profissional que aprende, questiona e colabora muda junto.</div>
+        </div>
+
+        <aside class="glass hero-card" aria-label="Sobre o palestrante">
+          <div class="label">com</div>
+          <div class="name">Gabriel Lara Baptista</div>
+          <div class="role">Head de Pesquisa e Desenvolvimento de Produtos Digitais</div>
+          <ul class="mini-list">
+            <li>Professor de Engenharia de Computação.</li>
+            <li>Mestre em Engenharia de Produção e MBA em Gestão de Negócios.</li>
+            <li>Técnico em Eletrônica, graduado em Ciência da Computação e pós-graduado em Qualidade de Software.</li>
+            <li>Autor de livros técnicos, incluindo a 5ª edição de obra sobre Arquitetura de Software com C# e .NET.</li>
+            <li>Cofundador de empresas de tecnologia.</li>
+          </ul>
+          <div class="speaker-note"><strong>Abertura sugerida:</strong> “Eu não vim convencer todo mundo a fazer tecnologia. Vim ajudar vocês a perguntarem melhor.”</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="pergunta" data-title="A pergunta certa">
+      <div>
+        <div class="kicker">1 de 7 · escolha profissional</div>
+        <h2>A pergunta não é: “qual profissão vai dar dinheiro?”</h2>
+        <p class="lead">A pergunta mais útil é: “em que tipo de problema eu aceitaria melhorar todos os dias?”</p>
+
+        <div class="grid cols-3" style="margin-top: 28px;">
+          <div class="card">
+            <div class="num">?</div>
+            <h3>Eu gosto de resolver problemas?</h3>
+            <p>Tecnologia envolve investigar, testar hipóteses, errar, corrigir e aprender com evidências.</p>
+          </div>
+          <div class="card">
+            <div class="num">!</div>
+            <h3>Eu consigo estudar sem alguém mandar?</h3>
+            <p>Na área, o diploma ajuda, mas a curiosidade e a prática constante sustentam a carreira.</p>
+          </div>
+          <div class="card">
+            <div class="num">∞</div>
+            <h3>Eu aceito que a resposta mude?</h3>
+            <p>Ferramentas passam. Fundamentos, pensamento crítico e comunicação continuam.</p>
+          </div>
+        </div>
+
+        <div class="speaker-note"><strong>Para puxar participação:</strong> peça para os alunos levantarem a mão: “quem gosta de criar?”, “quem gosta de entender como as coisas funcionam?”, “quem gosta de jogos, apps ou redes sociais?”.</div>
+      </div>
+    </section>
+
+    <section class="slide" id="2026" data-title="O cenário 2026">
+      <div>
+        <div class="kicker">2 de 7 · cenário de mercado</div>
+        <h2>O cenário de 2026: menos “saber uma ferramenta”, mais saber aprender.</h2>
+        <p>Entre 2025 e 2030, empresas esperam grande transformação nas habilidades profissionais. IA e Big Data, redes e cibersegurança, alfabetização tecnológica, pensamento analítico, criatividade, resiliência e liderança aparecem entre as capacidades mais importantes.</p>
+
+        <div class="pillars">
+          <article class="pillar">
+            <div class="icon">🤖</div>
+            <h3>IA virou ferramenta de trabalho</h3>
+            <p>Não é só “fazer pergunta para chatbot”. É usar IA para estudar, prototipar, testar ideias, documentar, revisar e comparar alternativas.</p>
+          </article>
+          <article class="pillar">
+            <div class="icon">🛡️</div>
+            <h3>Segurança virou responsabilidade de todos</h3>
+            <p>Dados, senhas, golpes, privacidade, fraude, engenharia social e riscos de IA fazem parte da rotina digital.</p>
+          </article>
+          <article class="pillar">
+            <div class="icon">🧭</div>
+            <h3>Soft skills viraram diferencial técnico</h3>
+            <p>Comunicação, colaboração, ética, curiosidade e resiliência definem quem consegue transformar conhecimento em resultado.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="ia" data-title="IA sem hype">
+      <div class="two-col">
+        <div>
+          <div class="kicker">3 de 7 · inteligência artificial</div>
+          <h2>IA não elimina a necessidade de aprender. Ela aumenta a diferença entre quem sabe pensar e quem só copia.</h2>
+          <p>Em desenvolvimento de software, estudo, pesquisa e produtos digitais, a IA acelera tarefas, mas também pode produzir respostas erradas com muita confiança. Por isso, o profissional de 2026 precisa combinar IA com julgamento humano.</p>
+          <div class="quote">A melhor pergunta para a IA é aquela que você consegue avaliar depois.</div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Use IA para aprender melhor</h3>
+            <p>Peça explicações em níveis diferentes, exemplos, analogias, exercícios, revisão de erros e caminhos de estudo.</p>
+          </div>
+          <div class="card">
+            <h3>Use IA para criar protótipos</h3>
+            <p>Teste ideias rapidamente, gere rascunhos, compare soluções e transforme uma dúvida em algo demonstrável.</p>
+          </div>
+          <div class="card">
+            <h3>Não terceirize sua responsabilidade</h3>
+            <p>Verifique fontes, entenda a lógica, proteja dados e nunca entregue algo que você não consegue explicar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="seguranca" data-title="Segurança">
+      <div>
+        <div class="kicker">4 de 7 · segurança da informação</div>
+        <h2>Segurança da Informação não é só “ser hacker”. É construir confiança.</h2>
+        <p class="lead">Em 2026, quase toda carreira toca dados, identidade digital, privacidade, IA, cloud, dispositivos conectados ou sistemas críticos.</p>
+
+        <div class="grid cols-4" style="margin-top: 28px;">
+          <div class="card">
+            <div class="num">01</div>
+            <h3>Identidade</h3>
+            <p>Senhas, MFA, biometria, acesso mínimo e cuidado com golpes de engenharia social.</p>
+          </div>
+          <div class="card">
+            <div class="num">02</div>
+            <h3>Dados</h3>
+            <p>Privacidade, LGPD, classificação de informação e cuidado com o que é enviado para ferramentas de IA.</p>
+          </div>
+          <div class="card">
+            <div class="num">03</div>
+            <h3>Sistemas</h3>
+            <p>Atualizações, vulnerabilidades, logs, monitoramento, backup e continuidade do negócio.</p>
+          </div>
+          <div class="card">
+            <div class="num">04</div>
+            <h3>Pessoas</h3>
+            <p>Treinamento, cultura, comunicação clara e atitude responsável diante de riscos.</p>
+          </div>
+        </div>
+
+        <div class="speaker-note"><strong>Pergunta para a turma:</strong> “Qual é mais perigoso: uma senha fraca, um clique errado ou uma IA recebendo dados confidenciais?” A resposta esperada é: depende do contexto; segurança é análise de risco.</div>
+      </div>
+    </section>
+
+    <section class="slide" id="softskills" data-title="Soft skills">
+      <div class="two-col">
+        <div>
+          <div class="kicker">5 de 7 · habilidades humanas</div>
+          <h2>Soft skills não são “extras”. Elas são o sistema operacional da carreira.</h2>
+          <p>Em tecnologia, quase nada importante é feito sozinho: você conversa com usuários, entende problemas, negocia prioridades, explica riscos, trabalha em equipe e aprende com feedback.</p>
+        </div>
+
+        <div class="grid">
+          <div class="q">
+            <span>1</span>
+            <div>
+              <strong>Comunicação</strong>
+              <small>Explicar ideias complexas de forma simples, ouvir antes de responder e alinhar expectativas.</small>
+            </div>
+          </div>
+          <div class="q">
+            <span>2</span>
+            <div>
+              <strong>Pensamento crítico</strong>
+              <small>Não aceitar a primeira resposta, comparar evidências e perceber limites de uma solução.</small>
+            </div>
+          </div>
+          <div class="q">
+            <span>3</span>
+            <div>
+              <strong>Resiliência</strong>
+              <small>Persistir diante de erro, bug, reprovação, mudança de plano e pressão por resultado.</small>
+            </div>
+          </div>
+          <div class="q">
+            <span>4</span>
+            <div>
+              <strong>Colaboração</strong>
+              <small>Aprender a trabalhar com pessoas diferentes, compartilhar conhecimento e pedir ajuda cedo.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="comecar" data-title="Como começar">
+      <div>
+        <div class="kicker">6 de 7 · plano prático</div>
+        <h2>Como começar ainda na escola?</h2>
+        <p class="lead">Você não precisa decidir a vida inteira agora. Precisa começar a construir repertório.</p>
+
+        <div class="pathway">
+          <div class="step">
+            <div>
+              <strong>Aprenda fundamentos</strong>
+              <span>Lógica, matemática, leitura, escrita, inglês técnico e noções de computação. Isso não sai de moda.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <strong>Faça projetos pequenos</strong>
+              <span>Um site, um app simples, um jogo, uma automação, uma análise de dados ou uma solução para um problema da escola.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <strong>Monte um portfólio</strong>
+              <span>Mostre o que você construiu, o problema que resolveu, como pensou e o que aprendeu.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <strong>Use IA com método</strong>
+              <span>Peça ajuda, mas valide. Use IA para estudar, não para fingir que aprendeu.</span>
+            </div>
+          </div>
+          <div class="step">
+            <div>
+              <strong>Converse com pessoas da área</strong>
+              <span>Pergunte sobre rotina, dificuldades, formação, erros e caminhos possíveis. Carreira também se aprende por contato.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="duvidas" data-title="Tira-dúvidas">
+      <div>
+        <div class="kicker">7 de 7 · foco da conversa</div>
+        <h2>Agora é a parte mais importante: dúvidas.</h2>
+        <p class="lead">Algumas perguntas que valem mais do que uma resposta pronta:</p>
+
+        <div class="question-list">
+          <div class="q">
+            <span>?</span>
+            <div>
+              <strong>“Como eu sei se tecnologia combina comigo?”</strong>
+              <small>Observe se você gosta de aprender, resolver problemas, criar coisas e entender sistemas.</small>
+            </div>
+          </div>
+          <div class="q">
+            <span>?</span>
+            <div>
+              <strong>“A IA vai substituir programadores?”</strong>
+              <small>Ela vai mudar a profissão. Quem entende fundamentos e sabe usar IA com responsabilidade tende a ter vantagem.</small>
+            </div>
+          </div>
+          <div class="q">
+            <span>?</span>
+            <div>
+              <strong>“Preciso ser ótimo em matemática?”</strong>
+              <small>Você precisa desenvolver raciocínio lógico. Algumas áreas exigem mais matemática; outras exigem mais produto, comunicação e negócio.</small>
+            </div>
+          </div>
+          <div class="q">
+            <span>?</span>
+            <div>
+              <strong>“Faculdade, técnico, bootcamp ou curso online?”</strong>
+              <small>O melhor caminho depende do objetivo. O ponto comum é prática, portfólio, fundamentos e consistência.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote">A meta não pode ser a média.</div>
+      </div>
+    </section>
+
+    <section class="slide" id="fontes" data-title="Fontes">
+      <div>
+        <div class="kicker">Fontes e atualização</div>
+        <h2>Conteúdo atualizado com referências de mercado recentes.</h2>
+        <p>Esta versão foi redesenhada a partir da apresentação original de 2025 e atualizada para uma conversa de 2026 sobre IA, segurança, soft skills e carreira em produtos digitais.</p>
+
+        <div class="source-grid">
+          <div class="source">
+            <a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/digest/" target="_blank" rel="noopener">World Economic Forum — Future of Jobs Report 2025</a><br/>
+            Tendências 2025–2030, habilidades em crescimento e transformação do trabalho.
+          </div>
+          <div class="source">
+            <a href="https://www.isc2.org/Insights/2025/12/2025-ISC2-Cybersecurity-Workforce-Study" target="_blank" rel="noopener">ISC2 — Cybersecurity Workforce Study 2025</a><br/>
+            Pressões, oportunidades e lacunas de competências em segurança cibernética.
+          </div>
+          <div class="source">
+            <a href="https://news.microsoft.com/annual-work-trend-index-2025/" target="_blank" rel="noopener">Microsoft — Work Trend Index 2025</a><br/>
+            Colaboração humano–agente, reconfiguração do trabalho e competências em IA.
+          </div>
+          <div class="source">
+            <a href="https://octoverse.github.com/" target="_blank" rel="noopener">GitHub — Octoverse 2025</a><br/>
+            Tendências de desenvolvimento, IA, agentes e linguagens de programação.
+          </div>
+        </div>
+
+        <div class="footer">
+          <strong>Observação para o apresentador:</strong> use esta página como uma apresentação navegável. As setas do teclado avançam e voltam. O botão “Perguntas dos alunos” abre um banco de respostas rápidas para facilitar o tira-dúvidas.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="floating" aria-label="Controles de navegação">
+    <button class="btn" onclick="goToSlide(current - 1)" aria-label="Slide anterior">←</button>
+    <span class="counter" id="counter">1 / 8</span>
+    <button class="btn primary" onclick="goToSlide(current + 1)" aria-label="Próximo slide">→</button>
+  </div>
+
+  <div class="modal" id="questionModal" role="dialog" aria-modal="true" aria-labelledby="questionTitle">
+    <div class="modal-panel">
+      <div style="display:flex; justify-content:space-between; gap:16px; align-items:start;">
+        <div>
+          <div class="kicker" style="margin-bottom:12px;">Banco de respostas rápidas</div>
+          <h2 id="questionTitle" style="font-size:clamp(30px,4vw,54px);">Perguntas prováveis dos alunos</h2>
+          <p style="margin-bottom:0;">Use como apoio para transformar a apresentação em conversa.</p>
+        </div>
+        <button class="btn" onclick="closeQuestions()">Fechar</button>
+      </div>
+
+      <div class="faq-grid">
+        <details open>
+          <summary>1. “Tecnologia é só programação?”</summary>
+          <p>Não. Programação é importante, mas há produto, segurança, dados, infraestrutura, UX, testes, gestão, arquitetura, suporte, pesquisa, inovação e muitas áreas híbridas com negócio.</p>
+        </details>
+        <details>
+          <summary>2. “IA vai tirar meu emprego?”</summary>
+          <p>IA tende a automatizar partes do trabalho e criar novas formas de trabalhar. O risco maior é ficar sem aprender. Fundamentos, ética, comunicação, segurança e pensamento crítico ficam ainda mais importantes.</p>
+        </details>
+        <details>
+          <summary>3. “Qual linguagem devo aprender primeiro?”</summary>
+          <p>Escolha uma linguagem amigável para começar, como Python, JavaScript, C# ou Java. Mais importante do que a primeira linguagem é aprender lógica, estruturas de decisão, repetição, dados e organização de código.</p>
+        </details>
+        <details>
+          <summary>4. “Preciso saber inglês?”</summary>
+          <p>Ajuda muito. Grande parte da documentação, cursos, comunidades e ferramentas aparece primeiro em inglês. Não precisa ser perfeito; precisa conseguir ler, pesquisar e evoluir.</p>
+        </details>
+        <details>
+          <summary>5. “Segurança da Informação é uma boa área?”</summary>
+          <p>Sim, mas exige estudo contínuo, responsabilidade e visão ética. Segurança envolve proteger pessoas, dados, sistemas e negócios — não apenas invadir ou explorar falhas.</p>
+        </details>
+        <details>
+          <summary>6. “Como eu monto portfólio?”</summary>
+          <p>Crie projetos pequenos e explique o problema, as escolhas, os aprendizados e os próximos passos. Um portfólio bom mostra raciocínio, não só tela bonita.</p>
+        </details>
+        <details>
+          <summary>7. “Qual faculdade escolher?”</summary>
+          <p>Ciência da Computação, Engenharia de Computação, Engenharia de Software, Sistemas de Informação e cursos técnicos podem abrir portas diferentes. Compare grade, prática, professores, projetos, infraestrutura e conexão com o mercado.</p>
+        </details>
+        <details>
+          <summary>8. “O que fazer nos próximos 30 dias?”</summary>
+          <p>Escolha um problema simples, estude o básico necessário, crie uma versão mínima, peça feedback, melhore e publique. O segredo é sair do consumo passivo para a construção ativa.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const progress = document.getElementById('progress');
+    const counter = document.getElementById('counter');
+    let current = 0;
+
+    function updateCurrentFromScroll() {
+      const middle = window.scrollY + window.innerHeight / 2;
+      let idx = 0;
+      slides.forEach((slide, i) => {
+        if (slide.offsetTop <= middle) idx = i;
+      });
+      current = idx;
+      updateUI();
+    }
+
+    function updateUI() {
+      const pct = slides.length <= 1 ? 100 : (current / (slides.length - 1)) * 100;
+      progress.style.width = `${pct}%`;
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      history.replaceState(null, '', `#${slides[current].id}`);
+    }
+
+    function goToSlide(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides[current].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      updateUI();
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    }
+
+    function openQuestions() {
+      document.getElementById('questionModal').classList.add('open');
+    }
+
+    function closeQuestions() {
+      document.getElementById('questionModal').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+        event.preventDefault();
+        goToSlide(current + 1);
+      }
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        goToSlide(current - 1);
+      }
+      if (event.key === 'Escape') closeQuestions();
+      if (event.key.toLowerCase() === 'q') openQuestions();
+    });
+
+    document.getElementById('questionModal').addEventListener('click', (event) => {
+      if (event.target.id === 'questionModal') closeQuestions();
+    });
+
+    window.addEventListener('scroll', updateCurrentFromScroll, { passive: true });
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') document.body.classList.add('light');
+
+    const initialHash = window.location.hash?.replace('#', '');
+    const initialIndex = slides.findIndex(s => s.id === initialHash);
+    if (initialIndex >= 0) {
+      current = initialIndex;
+      setTimeout(() => goToSlide(initialIndex), 50);
+    } else {
+      updateUI();
+    }
+  </script>
+</body>
+</html>
