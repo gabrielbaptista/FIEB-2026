@@ -452,6 +452,7 @@
     }
     body.light .floating { background: rgba(255,255,255,.78); }
     .floating .counter { min-width: 72px; text-align: center; font-size: 13px; color: var(--muted); font-weight: 850; }
+    .questions-mobile { display: none; }
 
     .modal {
       position: fixed;
@@ -494,6 +495,7 @@
       .brand span { display: none; }
       .nav-actions .hide-sm { display: none; }
       .floating { left: 50%; right: auto; transform: translateX(-50%); }
+      .questions-mobile { display: inline-flex; }
       main { padding-bottom: 82px; }
     }
 
@@ -533,7 +535,7 @@
       <nav class="nav-actions" aria-label="Ações da apresentação">
         <button class="btn hide-sm" onclick="openQuestions()">Perguntas dos alunos</button>
         <button class="btn hide-sm" onclick="window.print()">Imprimir / PDF</button>
-        <button class="btn" onclick="toggleTheme()">Tema</button>
+        <button class="btn" id="themeToggle" onclick="toggleTheme()" aria-pressed="false">Tema</button>
         <button class="btn primary" onclick="goToSlide(current + 1)">Próximo</button>
       </nav>
     </div>
@@ -825,8 +827,8 @@
             Pressões, oportunidades e lacunas de competências em segurança cibernética.
           </div>
           <div class="source">
-            <a href="https://news.microsoft.com/annual-work-trend-index-2025/" target="_blank" rel="noopener">Microsoft — Work Trend Index 2025</a><br/>
-            Colaboração humano–agente, reconfiguração do trabalho e competências em IA.
+            <a href="https://news.microsoft.com/annual-work-trend-index-2026/" target="_blank" rel="noopener">Microsoft — Work Trend Index 2026</a><br/>
+            Agentes, autonomia humana, modelos operacionais e competências em IA.
           </div>
           <div class="source">
             <a href="https://octoverse.github.com/" target="_blank" rel="noopener">GitHub — Octoverse 2025</a><br/>
@@ -842,20 +844,21 @@
   </main>
 
   <div class="floating" aria-label="Controles de navegação">
+    <button class="btn questions-mobile" onclick="openQuestions()" aria-label="Perguntas dos alunos">?</button>
     <button class="btn" onclick="goToSlide(current - 1)" aria-label="Slide anterior">←</button>
-    <span class="counter" id="counter">1 / 8</span>
+    <span class="counter" id="counter">1 / 9</span>
     <button class="btn primary" onclick="goToSlide(current + 1)" aria-label="Próximo slide">→</button>
   </div>
 
   <div class="modal" id="questionModal" role="dialog" aria-modal="true" aria-labelledby="questionTitle">
-    <div class="modal-panel">
+    <div class="modal-panel" tabindex="-1">
       <div style="display:flex; justify-content:space-between; gap:16px; align-items:start;">
         <div>
           <div class="kicker" style="margin-bottom:12px;">Banco de respostas rápidas</div>
           <h2 id="questionTitle" style="font-size:clamp(30px,4vw,54px);">Perguntas prováveis dos alunos</h2>
           <p style="margin-bottom:0;">Use como apoio para transformar a apresentação em conversa.</p>
         </div>
-        <button class="btn" onclick="closeQuestions()">Fechar</button>
+        <button class="btn" id="closeQuestionsButton" onclick="closeQuestions()">Fechar</button>
       </div>
 
       <div class="faq-grid">
@@ -899,7 +902,13 @@
     const slides = Array.from(document.querySelectorAll('.slide'));
     const progress = document.getElementById('progress');
     const counter = document.getElementById('counter');
+    const questionModal = document.getElementById('questionModal');
+    const modalPanel = questionModal.querySelector('.modal-panel');
+    const closeQuestionsButton = document.getElementById('closeQuestionsButton');
+    const themeToggle = document.getElementById('themeToggle');
+    const focusableSelector = 'a[href], button:not([disabled]), summary, input, select, textarea, [tabindex]:not([tabindex="-1"])';
     let current = 0;
+    let lastFocusedElement = null;
 
     function updateCurrentFromScroll() {
       const middle = window.scrollY + window.innerHeight / 2;
@@ -927,17 +936,70 @@
     function toggleTheme() {
       document.body.classList.toggle('light');
       localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+      updateThemeButton();
+    }
+
+    function updateThemeButton() {
+      const isLight = document.body.classList.contains('light');
+      themeToggle.setAttribute('aria-pressed', String(isLight));
+      themeToggle.setAttribute('aria-label', isLight ? 'Tema claro ativo' : 'Tema escuro ativo');
     }
 
     function openQuestions() {
-      document.getElementById('questionModal').classList.add('open');
+      lastFocusedElement = document.activeElement;
+      questionModal.classList.add('open');
+      closeQuestionsButton.focus();
     }
 
     function closeQuestions() {
-      document.getElementById('questionModal').classList.remove('open');
+      questionModal.classList.remove('open');
+      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+        lastFocusedElement.focus();
+      }
+    }
+
+    function isInteractiveTarget(target) {
+      if (!(target instanceof Element)) return false;
+      return Boolean(target.closest('button, a, summary, input, textarea, select, [contenteditable="true"]'));
+    }
+
+    function trapModalFocus(event) {
+      const focusable = Array.from(questionModal.querySelectorAll(focusableSelector))
+        .filter(element => element.offsetParent !== null);
+
+      if (!focusable.length) {
+        event.preventDefault();
+        modalPanel.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     document.addEventListener('keydown', (event) => {
+      const isModalOpen = questionModal.classList.contains('open');
+
+      if (event.key === 'Escape' && isModalOpen) {
+        closeQuestions();
+        return;
+      }
+
+      if (isModalOpen && event.key === 'Tab') {
+        trapModalFocus(event);
+        return;
+      }
+
+      if (isModalOpen || isInteractiveTarget(event.target)) return;
+
       if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
         event.preventDefault();
         goToSlide(current + 1);
@@ -946,11 +1008,10 @@
         event.preventDefault();
         goToSlide(current - 1);
       }
-      if (event.key === 'Escape') closeQuestions();
       if (event.key.toLowerCase() === 'q') openQuestions();
     });
 
-    document.getElementById('questionModal').addEventListener('click', (event) => {
+    questionModal.addEventListener('click', (event) => {
       if (event.target.id === 'questionModal') closeQuestions();
     });
 
@@ -958,6 +1019,7 @@
 
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') document.body.classList.add('light');
+    updateThemeButton();
 
     const initialHash = window.location.hash?.replace('#', '');
     const initialIndex = slides.findIndex(s => s.id === initialHash);

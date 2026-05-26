@@ -1,122 +1,67 @@
-# Revisao da aplicacao
+# Feira das Profissoes 2026
 
-Data da revisao: 26/05/2026
+Apresentacao web estatica sobre tecnologia, IA, seguranca da informacao, soft skills e carreira em produtos digitais para a Feira das Profissoes 2026.
 
-## Escopo
+## Como abrir
 
-Aplicacao revisada: `index.html`
+Abra o arquivo `index.html` diretamente no navegador.
 
-O projeto e uma apresentacao web estatica para a Feira das Profissoes 2026, com HTML, CSS e JavaScript embutidos em um unico arquivo. A revisao considerou estrutura, navegacao, responsividade, acessibilidade, conteudo, manutencao e referencias externas.
+No GitHub, este `README.md` aparece automaticamente na pagina inicial do repositorio.
 
-## Resumo executivo
+## Solucao aplicada
 
-A aplicacao esta funcionalmente simples e bem adequada ao formato de apresentacao: nao depende de build, possui layout responsivo, navegacao por botoes/teclado, tema claro/escuro, modal de perguntas e modo de impressao.
+Data da atualizacao: 26/05/2026
 
-Os principais pontos de melhoria estao em acessibilidade e experiencia em mobile. O banco de perguntas fica oculto em telas menores, o modal nao gerencia foco, e o atalho global de teclado pode interferir em controles nativos como botoes e accordions. Tambem ha oportunidades de manter o conteudo mais alinhado a 2026, especialmente nas referencias de mercado.
+A aplicacao foi revisada e recebeu correcoes focadas em acessibilidade, experiencia mobile e atualizacao de conteudo.
 
-## Achados
+### Correcoes realizadas
 
-### Alta prioridade
+1. Banco de perguntas acessivel no mobile
 
-1. Banco de perguntas fica inacessivel para usuarios mobile
+Foi adicionado um botao `?` nos controles flutuantes para abrir o banco de perguntas em telas pequenas. Antes, o botao principal ficava oculto abaixo de 920px e a funcionalidade dependia do atalho `q`, que nao e pratico em celulares.
 
-No CSS responsivo, os botoes com `.hide-sm` sao ocultados abaixo de 920px. Isso remove o botao "Perguntas dos alunos" da interface mobile, e nao existe outro controle visivel para abrir o modal. O atalho `q` ainda existe, mas nao e descobrivel nem pratico em celular.
+2. Modal com gerenciamento de foco
 
-Impacto: usuarios em celular/tablet perdem uma funcionalidade importante da apresentacao.
+O modal de perguntas agora:
 
-Recomendacao: manter um botao compacto para perguntas no controle flutuante ou criar um menu/icone acessivel em mobile.
+- salva o elemento que abriu o modal;
+- move o foco para o botao "Fechar" ao abrir;
+- prende a navegacao por `Tab` dentro do modal;
+- fecha com `Escape`;
+- devolve o foco ao elemento anterior ao fechar.
 
-Arquivos/linhas relacionadas: `index.html` linhas 534 e 491.
+3. Atalhos de teclado mais seguros
 
-2. Modal de perguntas nao gerencia foco
+Os atalhos globais de navegacao deixam de interferir em elementos interativos como botoes, links, `summary`, campos de formulario e conteudos editaveis. Quando o modal esta aberto, apenas `Escape` e `Tab` sao tratados globalmente.
 
-O modal usa `role="dialog"` e `aria-modal="true"`, mas ao abrir nao move o foco para dentro do modal, nao prende a navegacao por Tab e nao restaura o foco ao botao que abriu o modal quando fecha.
+4. Botao de tema mais acessivel
 
-Impacto: usuarios de teclado e leitores de tela podem continuar navegando por elementos ao fundo, perdendo contexto.
+O botao "Tema" agora possui `aria-pressed` e `aria-label` dinamicos para indicar se o tema claro ou escuro esta ativo.
 
-Recomendacao: ao abrir, salvar o elemento ativo, focar o botao "Fechar" ou o titulo do modal, implementar focus trap enquanto o modal estiver aberto e restaurar o foco no fechamento.
+5. Fonte Microsoft atualizada para 2026
 
-Arquivos/linhas relacionadas: `index.html` linhas 850, 932 e 936.
+A referencia da Microsoft foi atualizada de Work Trend Index 2025 para Work Trend Index 2026, mantendo o conteudo mais coerente com a proposta da apresentacao.
 
-### Media prioridade
+6. Contador inicial corrigido
 
-3. Atalhos globais interferem em elementos interativos
+O contador flutuante inicial foi ajustado de `1 / 8` para `1 / 9`, refletindo a quantidade real de secoes com classe `.slide`.
 
-O listener global de `keydown` captura `Space`, `ArrowRight`, `ArrowLeft`, `PageDown` e `PageUp` em todo o documento. Isso pode conflitar com a ativacao nativa de botoes, accordions (`summary`) e outros elementos focaveis, principalmente dentro do modal.
+## Arquivos alterados
 
-Impacto: o usuario pode tentar abrir um item de FAQ com espaco e acabar avancando slide.
+- `index.html`: correcoes de CSS, HTML, JavaScript e referencia externa.
+- `README.md`: atualizado para documentar a solucao aplicada.
 
-Recomendacao: ignorar atalhos quando `event.target` estiver dentro de `button`, `a`, `summary`, `input`, `textarea`, `select`, `[contenteditable]` ou quando o modal estiver aberto, exceto `Escape`.
+## Validacao
 
-Arquivos/linhas relacionadas: `index.html` linhas 940 a 950.
+- Busca estatica com `rg` para confirmar os pontos alterados.
+- Validacao de sintaxe do JavaScript embutido usando o Node.js empacotado no ambiente Codex.
+- Conferencia manual dos trechos alterados no HTML.
 
-4. Indicacao visual e semantica do tema e limitada
+Observacao: a abertura visual via `file:///.../index.html` no navegador embutido foi bloqueada pela politica de seguranca do ambiente, entao a validacao visual automatizada nao foi executada aqui.
 
-O botao "Tema" alterna entre claro e escuro, mas nao informa o estado atual para tecnologias assistivas e nao comunica se o proximo clique vai ativar ou desativar o modo claro.
-
-Impacto: baixa previsibilidade para usuarios de leitor de tela e menor clareza para apresentadores.
-
-Recomendacao: adicionar `aria-pressed`, atualizar o texto ou `aria-label` dinamicamente e considerar uma indicacao visual de estado.
-
-Arquivos/linhas relacionadas: `index.html` linhas 536 e 927.
-
-5. Conteudo se apresenta como 2026, mas parte das fontes ja tem versoes/atualizacoes de 2026
-
-A apresentacao esta posicionada como conteudo de 2026, mas a secao de fontes usa majoritariamente referencias de 2025. Isso e aceitavel para WEF Future of Jobs 2025 e GitHub Octoverse 2025, mas a Microsoft ja possui o Work Trend Index 2026 publicado, o que pode deixar a narrativa de IA/agentes menos atual.
-
-Impacto: o material pode parecer menos atualizado em uma palestra de 2026.
-
-Recomendacao: revisar a secao de fontes e, quando fizer sentido, incluir ou substituir pela referencia Microsoft Work Trend Index 2026. Manter o WEF 2025 e valido porque o relatorio cobre o periodo 2025-2030.
-
-Referencias verificadas:
+## Referencias
 
 - World Economic Forum - Future of Jobs Report 2025: https://www.weforum.org/publications/the-future-of-jobs-report-2025/digest/
 - ISC2 - 2025 Cybersecurity Workforce Study: https://www.isc2.org/Insights/2025/12/2025-ISC2-Cybersecurity-Workforce-Study
 - Microsoft - 2026 Work Trend Index Annual Report: https://news.microsoft.com/annual-work-trend-index-2026
 - GitHub - Octoverse 2025: https://octoverse.github.com/
-
-### Baixa prioridade
-
-6. Contadores textuais podem gerar pequena confusao
-
-Os slides de conteudo usam marcadores como "1 de 7" ate "7 de 7", mas a pagina possui tambem os slides "Inicio" e "Fontes". O contador flutuante calcula todos os `section.slide`, entao a experiencia real e de 9 secoes.
-
-Impacto: pequena inconsistencia entre a numeracao editorial e a navegacao real.
-
-Recomendacao: decidir se "Inicio" e "Fontes" fazem parte da contagem. Se fizerem, padronizar para 1 de 9. Se nao fizerem, ajustar o contador flutuante para contar apenas slides principais.
-
-Arquivos/linhas relacionadas: `index.html` linhas 544, 576, 604, 630, 656, 689, 730, 771, 812 e 845.
-
-7. JavaScript, CSS e HTML estao todos no mesmo arquivo
-
-Para uma apresentacao estatica pequena, isso funciona bem. Porem, conforme o conteudo crescer, a manutencao de estilos, interacoes e conteudo em um unico arquivo ficara mais dificil.
-
-Impacto: maior custo para evoluir a aplicacao, revisar alteracoes e reaproveitar componentes.
-
-Recomendacao: se o projeto continuar crescendo, separar em `styles.css` e `script.js`, mantendo o HTML focado em estrutura e conteudo.
-
-## Pontos positivos
-
-- Aplicacao simples de distribuir: basta abrir o HTML.
-- CSS responsivo cobre bem a mudanca de grids para uma coluna.
-- Existe suporte a impressao/PDF via `@media print`.
-- Links externos usam `target="_blank"` com `rel="noopener"`.
-- A navegacao por teclado existe e cobre setas, PageUp/PageDown, espaco e Escape.
-- O conteudo tem boa progressao narrativa para apresentacao educacional.
-
-## Validacao realizada
-
-- Estrutura do repositorio verificada: apenas `index.html`.
-- Leitura estatica do HTML, CSS e JavaScript.
-- Busca de pontos sensiveis com `rg`.
-- Conferencia web das principais referencias externas.
-
-Observacao: a tentativa de abrir `file:///C:/projetos/FIEB-2026/FIEB-2026/index.html` no navegador embutido foi bloqueada pela politica de seguranca do ambiente. Por isso, esta revisao nao inclui validacao visual automatizada no navegador.
-
-## Recomendacao de proxima iteracao
-
-Priorizar os tres ajustes que mais melhoram a experiencia real:
-
-1. Expor o banco de perguntas tambem no mobile.
-2. Corrigir foco e acessibilidade do modal.
-3. Ajustar os atalhos globais para nao interferirem em controles interativos.
