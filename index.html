@@ -399,18 +399,6 @@
       align-items: center;
     }
 
-    .speaker-note {
-      margin-top: 22px;
-      padding: 16px;
-      border-radius: 18px;
-      border: 1px dashed rgba(255,255,255,.22);
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
-      background: rgba(255,255,255,.04);
-    }
-    .speaker-note strong { color: var(--text); }
-
     .source-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
@@ -534,7 +522,6 @@
       </div>
       <nav class="nav-actions" aria-label="Ações da apresentação">
         <button class="btn hide-sm" onclick="openQuestions()">Perguntas dos alunos</button>
-        <button class="btn hide-sm" onclick="window.print()">Imprimir / PDF</button>
         <button class="btn" id="themeToggle" onclick="toggleTheme()" aria-pressed="false">Tema</button>
         <button class="btn primary" onclick="goToSlide(current + 1)">Próximo</button>
       </nav>
@@ -572,7 +559,6 @@
             <li>Autor de livros técnicos, incluindo a 5ª edição de obra sobre Arquitetura de Software com C# e .NET.</li>
             <li>Cofundador de empresas de tecnologia.</li>
           </ul>
-          <div class="speaker-note"><strong>Abertura sugerida:</strong> “Hoje é palestra, mas também é roda de conversa: eu compartilho minha trajetória, e vocês trazem dúvidas, percepções e experiências.”</div>
         </aside>
       </div>
     </section>
@@ -601,7 +587,6 @@
           </div>
         </div>
 
-        <div class="speaker-note"><strong>Para puxar participação:</strong> peça exemplos de experiências dos alunos: curso técnico, trabalho informal, projeto de escola, voluntariado, redes sociais, jogos, atendimento, vendas ou organização de eventos.</div>
       </div>
     </section>
 
@@ -686,7 +671,6 @@
           </div>
         </div>
 
-        <div class="speaker-note"><strong>Pergunta para a turma:</strong> “Qual é mais perigoso: uma senha fraca, um clique errado ou uma IA recebendo dados confidenciais?” A resposta esperada é: depende do contexto; segurança é análise de risco.</div>
       </div>
     </section>
 
@@ -757,7 +741,6 @@
 
         <div class="quote">Para a primeira oportunidade, evidência vale muito: projeto, relato, portfólio, indicação, postura e capacidade de explicar o próprio caminho.</div>
 
-        <div class="speaker-note"><strong>Roda de conversa:</strong> pergunte “o que vocês acham que uma empresa espera de alguém no primeiro emprego?” e depois conecte as respostas com exemplos reais de rotina, entrevista, feedback e aprendizado.</div>
       </div>
     </section>
 
@@ -883,9 +866,6 @@
           </div>
         </div>
 
-        <div class="footer">
-          <strong>Observação para o apresentador:</strong> use esta página como uma apresentação navegável. As setas do teclado avançam e voltam. O botão “Perguntas dos alunos” abre um banco de respostas rápidas para facilitar o tira-dúvidas.
-        </div>
       </div>
     </section>
   </main>

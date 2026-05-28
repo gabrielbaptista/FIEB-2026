@@ -55,6 +55,7 @@ O banco de perguntas foi atualizado com temas como IA, sustentabilidade, primeir
 - Atualizacao do banco de perguntas do modal.
 - Inclusao de novas fontes de mercado: Robert Half Guia Salarial 2026 e LinkedIn Skills on the Rise 2026.
 - Ajuste do contador inicial para `1 / 10`, refletindo a quantidade real de secoes.
+- Remocao do botao "Imprimir / PDF" e das notas internas direcionadas ao apresentador, deixando a pagina focada no publico.
 
 ## Correcoes de acessibilidade ja aplicadas
 
